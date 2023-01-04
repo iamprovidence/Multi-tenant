@@ -2,7 +2,7 @@
 
 GO 
 
-CREATE TABLE [single-tenant-db].[dbo].[Order] (
+CREATE TABLE [single-tenant-db].[dbo].[Orders] (
     [Id] int,
     [Name] varchar(255),
     [TenantId] int,
@@ -10,7 +10,7 @@ CREATE TABLE [single-tenant-db].[dbo].[Order] (
 
 GO
 
-INSERT INTO [single-tenant-db].[dbo].[Order] ([Id], [Name], [TenantId])
+INSERT INTO [single-tenant-db].[dbo].[Orders] ([Id], [Name], [TenantId])
 VALUES
     (1, 'Order 1', 1),
     (2, 'Order 2', 1),
