@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MultipleDb.Domain;
 using MultipleDb.Infrastructure;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MultipleDb.Controllers
 {
@@ -20,6 +23,7 @@ namespace MultipleDb.Controllers
         {
             return _dbContext
                 .Orders
+                .Include(x => x.Items)
                 .ToList();
         }
     }

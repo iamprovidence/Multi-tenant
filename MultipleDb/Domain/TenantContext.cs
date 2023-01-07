@@ -2,17 +2,6 @@
 {
     public class TenantContext
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public TenantContext(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
-
-        public int GetId()
-        {
-            return int.Parse(_httpContextAccessor.HttpContext.GetRouteValue("tenantId").ToString());
-        }
-
+        public int Id { get; set; }
     }
 }

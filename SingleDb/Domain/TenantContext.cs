@@ -1,4 +1,7 @@
-﻿namespace SingleDb.Domain
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+
+namespace SingleDb.Domain
 {
     public class TenantContext
     {

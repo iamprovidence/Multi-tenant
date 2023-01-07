@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SingleDb.Domain;
 using SingleDb.Infrastructure;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SingleDb.Controllers
 {
@@ -25,6 +28,7 @@ namespace SingleDb.Controllers
         {
             return _dbContext
                 .Orders
+                .Include(x => x.Items)
                 .Where(x => x.TenantId == _tenantContext.GetId())
                 .ToList();
         }
@@ -34,6 +38,7 @@ namespace SingleDb.Controllers
         {
             return _dbContext
                 .Orders
+                .Include(x => x.Items)
                 .ToList();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using SingleDb.Domain;
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -21,6 +22,10 @@ namespace SingleDb.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder
+                .Entity<OrderItem>()
+                .ToTable("OrderItems");
+
             /*
             modelBuilder
                 .Entity<Order>()
@@ -39,17 +44,17 @@ namespace SingleDb.Infrastructure
         public void AddTenantQueryFilter(IMutableEntityType entityData)
         {
             var methodToCall = typeof(AppDbContext)
-                .GetMethod(nameof(SetupTenantQueryFilter), BindingFlags.NonPublic | BindingFlags.Static)
+                .GetMethod(nameof(SetupTenantQueryFilter), BindingFlags.NonPublic | BindingFlags.Instance)
                 .MakeGenericMethod(entityData.ClrType);
 
-            var filter = methodToCall.Invoke(null, new object[] { _tenantContext.GetId() });
+            var filter = methodToCall.Invoke(this, null);
             entityData.SetQueryFilter((LambdaExpression)filter);
         }
 
-        private static LambdaExpression SetupTenantQueryFilter<TEntity>(int tenantId)
+        private LambdaExpression SetupTenantQueryFilter<TEntity>()
             where TEntity : class, ITenantEntity
         {
-            Expression<Func<TEntity, bool>> filter = x => x.TenantId == tenantId;
+            Expression<Func<TEntity, bool>> filter = x => x.TenantId == _tenantContext.GetId();
             return filter;
         }
     }
